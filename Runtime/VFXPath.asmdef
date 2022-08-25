@@ -1,6 +1,6 @@
 {
     "name": "VFXPath",
-    "rootNamespace": "",
+    "rootNamespace": "VFXPath",
     "references": [
         "GUID:626070ea3273cb844a310aa4f53b31fa",
         "GUID:21d1eb854b91ade49bc69a263d12bee2",
