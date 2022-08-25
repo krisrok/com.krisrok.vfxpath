@@ -1,0 +1,30 @@
+{
+    "name": "VFXPath",
+    "rootNamespace": "",
+    "references": [
+        "GUID:626070ea3273cb844a310aa4f53b31fa",
+        "GUID:21d1eb854b91ade49bc69a263d12bee2",
+        "GUID:d8b63aba1907145bea998dd612889d6b",
+        "GUID:d04eb9c554ad44ceab303cecf0c0cf82"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [
+        {
+            "name": "com.seblague.pathcreator",
+            "expression": "",
+            "define": "HAS_PATHCREATOR"
+        },
+        {
+            "name": "com.unity.splines",
+            "expression": "",
+            "define": "HAS_SPLINES"
+        }
+    ],
+    "noEngineReferences": false
+}
