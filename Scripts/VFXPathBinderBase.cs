@@ -6,6 +6,10 @@ namespace VFXPath
 {
     public abstract class VFXPathBinderBase : VFXBinderBase
     {
+        [SerializeField]
+        [Min(2)]
+        protected int _pointCount = 100;
+
         [VFXPropertyBinding("System.Int32"), SerializeField]
         protected ExposedProperty _pointCountPropertyName = "PointCount";
 
@@ -20,10 +24,6 @@ namespace VFXPath
 
         [VFXPropertyBinding("UnityEngine.Vector3"), SerializeField]
         protected ExposedProperty _boundsSizePropertyName = "BoundsSize";
-
-        [SerializeField]
-        [Min(2)]
-        protected int _pointCount = 100;
 
         private string _currentPointCountPropertyName;
         private string _currentPositionMapPropertyName;
