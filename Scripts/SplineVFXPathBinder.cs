@@ -108,6 +108,9 @@ namespace VFXPath
 
             if (spline == _currentSpline)
             {
+                // We always need to update if the spline is sitting on another transform
+                // as we cannot know when any involved transform changes.
+                // TODO: This makes the event handler below and most caching redundant. What is a good approach?
                 _needsUpdate = _needsUpdate || _splineContainer.transform != transform;
                 return;
             }

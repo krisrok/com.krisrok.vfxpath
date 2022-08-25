@@ -106,7 +106,8 @@ namespace VFXPath
             if (_rotationMapTexture != null)
                 DestroyImmediate(_rotationMapTexture);
 
-            // Has power of two any real advantage anymore? Or could we just use a 1-dimensional texture like VFXHierarchyAttributeMapBinder ? 
+            // Has power of two any real advantage anymore? Or could we just use a 1-dimensional
+            // texture like e.g. VFXHierarchyAttributeMapBinder ? 
             var sideLength = Mathf.NextPowerOfTwo(Mathf.CeilToInt(Mathf.Sqrt(_pointCount)));
             var width = sideLength;
             var height = sideLength;
