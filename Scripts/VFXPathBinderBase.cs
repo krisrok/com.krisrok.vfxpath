@@ -114,6 +114,8 @@ namespace VFXPath
             _positionMapTexture = new Texture2D(width, height, TextureFormat.RGBAHalf, false, true);
             _rotationMapTexture = new Texture2D(width, height, TextureFormat.RGBAHalf, false, true);
 
+            _positionMapTexture.filterMode = _rotationMapTexture.filterMode = FilterMode.Point;
+
             _currentPointCount = _pointCount;
 
             _positions = new Color[width * height];
