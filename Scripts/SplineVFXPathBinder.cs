@@ -47,6 +47,14 @@ namespace VFXPath
 
                 var bounds = new Bounds();
 
+                var m = Matrix4x4.identity;
+                var mr = Quaternion.identity;
+                if (_splineContainer.transform != transform)
+                {
+                    m = transform.worldToLocalMatrix * _splineContainer.transform.localToWorldMatrix;
+                    mr = transform.rotation * _splineContainer.transform.rotation;
+                }
+
                 float t = 0;
                 for (int i = 0; i < _pointCount; i++)
                 {
@@ -54,10 +62,13 @@ namespace VFXPath
 
                     tangent = FixNullTangentIfNeeded(tangent, position, i, step);
                     tangent = math.normalize(tangent);
-                    var q = quaternion.LookRotation(tangent, up);
+                    var rotation = Quaternion.LookRotation(tangent, up);
+
+                    position = m.MultiplyPoint3x4(position);
+                    rotation = mr * rotation;
 
                     _positions[i] = new Color(position.x, position.y, position.z, 1);
-                    _rotations[i] = new Color(q.value.x, q.value.y, q.value.z, q.value.w);
+                    _rotations[i] = new Color(rotation.x, rotation.y, rotation.z, rotation.w);
 
                     if (i == 0)
                         bounds = new Bounds(position, Vector3.zero);
@@ -96,7 +107,10 @@ namespace VFXPath
             var spline = _splineContainer?.Spline;
 
             if (spline == _currentSpline)
+            {
+                _needsUpdate = _needsUpdate || _splineContainer.transform != transform;
                 return;
+            }
 
             if (_currentSpline != null)
                 _currentSpline.changed -= _spline_ContentsChanged;
