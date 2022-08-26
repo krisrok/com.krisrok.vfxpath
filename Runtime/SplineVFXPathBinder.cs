@@ -54,7 +54,7 @@ namespace VFXPath
 
                     tangent = FixNullTangentIfNeeded(tangent, position, i, step);
                     tangent = math.normalize(tangent);
-                    var rotation = Quaternion.LookRotation(tangent, up);
+                    var rotation = quaternion.LookRotation(tangent, up).value;
 
                     _positions[i] = new Color(position.x, position.y, position.z, 1);
                     _rotations[i] = new Color(rotation.x, rotation.y, rotation.z, rotation.w);
