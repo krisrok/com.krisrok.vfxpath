@@ -1,4 +1,4 @@
-﻿#if HAS_SPLINES
+#if HAS_SPLINES
 using System;
 using System.Collections;
 using System.Collections.Generic;
