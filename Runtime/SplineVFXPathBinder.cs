@@ -47,14 +47,6 @@ namespace VFXPath
 
                 var bounds = new Bounds();
 
-                var m = Matrix4x4.identity;
-                var mr = Quaternion.identity;
-                if (_splineContainer.transform != transform)
-                {
-                    m = transform.worldToLocalMatrix * _splineContainer.transform.localToWorldMatrix;
-                    mr = transform.rotation * _splineContainer.transform.rotation;
-                }
-
                 float t = 0;
                 for (int i = 0; i < _pointCount; i++)
                 {
@@ -63,9 +55,6 @@ namespace VFXPath
                     tangent = FixNullTangentIfNeeded(tangent, position, i, step);
                     tangent = math.normalize(tangent);
                     var rotation = Quaternion.LookRotation(tangent, up);
-
-                    position = m.MultiplyPoint3x4(position);
-                    rotation = mr * rotation;
 
                     _positions[i] = new Color(position.x, position.y, position.z, 1);
                     _rotations[i] = new Color(rotation.x, rotation.y, rotation.z, rotation.w);
@@ -107,19 +96,22 @@ namespace VFXPath
             var spline = _splineContainer?.Spline;
 
             if (spline == _currentSpline)
-            {
-                // We always need to update if the spline is sitting on another transform
-                // as we cannot know when any involved transform changes.
-                // TODO: This makes the event handler below and most caching redundant. What is a good approach?
-                _needsUpdate = _needsUpdate || _splineContainer.transform != transform;
                 return;
-            }
 
             if (_currentSpline != null)
                 _currentSpline.changed -= _spline_ContentsChanged;
 
             if (spline != null)
+            {
                 spline.changed += _spline_ContentsChanged;
+
+                if (_splineContainer.transform != transform)
+                {
+                    // We expect the spline to be sitting on this same transform. Warn the user if it isn't.
+                    Debug.LogWarning($"The referenced {nameof(SplineContainer)} should be on the same {nameof(GameObject)} as the {nameof(VisualEffect)} but is on {_splineContainer.gameObject.name} instead. " +
+                        $"Auto-updating the path will not work correctly. Particles might end up in unexpected positions.", this);
+                }
+            }
 
             _currentSpline = spline;
 
