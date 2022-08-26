@@ -122,6 +122,11 @@ namespace VFXPath
         {
             _needsUpdate = true;
         }
+
+        public override string ToString()
+        {
+            return $"VFX Path: Spline -> {_positionMapPropertyName} {_rotationMapPropertyName}";
+        }
     }
 }
 #endif
