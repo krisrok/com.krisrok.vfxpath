@@ -1,7 +1,9 @@
 #if HAS_PATHCREATOR
 using PathCreation;
+#if ODIN_INSPECTOR
 using Sirenix.OdinInspector;
 using Sirenix.Utilities.Editor;
+#endif
 using System;
 using System.Collections.Generic;
 using System.Globalization;
@@ -25,7 +27,9 @@ public class PathToPCache : MonoBehaviour
     private const float _updateThrottle = 1;
     private const PCache.Format _pcacheFormat = PCache.Format.Binary;
 
+#if ODIN_INSPECTOR
     [Button]
+#endif
     void SavePCache()
     {
         var pathCreator = GetComponent<PathCreator>();
@@ -102,6 +106,8 @@ public class PathToPCache : MonoBehaviour
         }
     }
 
+#if ODIN_INSPECTOR
+
     [OnInspectorInit]
     private void OnInspectorInit()
     {
@@ -148,6 +154,7 @@ public class PathToPCache : MonoBehaviour
         _needsUpdate = false;
         SavePCache();
     }
+#endif
 
     class PCache
     {
