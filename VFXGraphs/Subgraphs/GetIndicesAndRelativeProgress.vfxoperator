@@ -63,7 +63,7 @@ MonoBehaviour:
       m_Type:
         m_SerializableType: System.Int32, mscorlib, Version=4.0.0.0, Culture=neutral,
           PublicKeyToken=b77a5c561934e089
-      m_SerializableObject: 4
+      m_SerializableObject: 256
     min: -Infinity
     max: Infinity
     enumValues: []
@@ -77,7 +77,7 @@ MonoBehaviour:
       m_Type:
         m_SerializableType: System.Single, mscorlib, Version=4.0.0.0, Culture=neutral,
           PublicKeyToken=b77a5c561934e089
-      m_SerializableObject: 1.07
+      m_SerializableObject: 0.2
     min: -Infinity
     max: Infinity
     enumValues: []
@@ -126,8 +126,8 @@ MonoBehaviour:
     serializedVersion: 2
     x: -610
     y: 894
-    width: 2456
-    height: 916
+    width: 2455
+    height: 720
 --- !u!114 &114350483966674978
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -511,6 +511,7 @@ MonoBehaviour:
   m_Direction: 1
   m_LinkedSlots:
   - {fileID: 114350483966674980}
+  - {fileID: 114350483966675113}
 --- !u!114 &114350483966674989
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -648,7 +649,7 @@ MonoBehaviour:
   m_Direction: 1
   m_LinkedSlots:
   - {fileID: 114350483966674981}
-  - {fileID: 114350483966675113}
+  - {fileID: 114350483966675114}
 --- !u!114 &114350483966674993
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1098,7 +1099,7 @@ MonoBehaviour:
       m_Type:
         m_SerializableType: System.Single, mscorlib, Version=4.0.0.0, Culture=neutral,
           PublicKeyToken=b77a5c561934e089
-      m_SerializableObject: 1.07
+      m_SerializableObject: 0.2
     m_Space: 2147483647
   m_Property:
     name: o
@@ -1179,7 +1180,7 @@ MonoBehaviour:
       m_Type:
         m_SerializableType: System.Int32, mscorlib, Version=4.0.0.0, Culture=neutral,
           PublicKeyToken=b77a5c561934e089
-      m_SerializableObject: 4
+      m_SerializableObject: 256
     m_Space: 2147483647
   m_Property:
     name: o
@@ -1752,7 +1753,7 @@ MonoBehaviour:
         PublicKeyToken=b77a5c561934e089
   m_Direction: 0
   m_LinkedSlots:
-  - {fileID: 114350483966674992}
+  - {fileID: 114350483966674988}
 --- !u!114 &114350483966675114
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1786,7 +1787,8 @@ MonoBehaviour:
       m_SerializableType: System.Single, mscorlib, Version=4.0.0.0, Culture=neutral,
         PublicKeyToken=b77a5c561934e089
   m_Direction: 0
-  m_LinkedSlots: []
+  m_LinkedSlots:
+  - {fileID: 114350483966674992}
 --- !u!114 &114350483966675115
 MonoBehaviour:
   m_ObjectHideFlags: 0
