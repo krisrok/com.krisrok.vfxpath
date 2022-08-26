@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 using UnityEngine.VFX;
 using UnityEngine.VFX.Utility;
 
@@ -8,7 +9,7 @@ namespace VFXPath
     {
         [SerializeField]
         [Min(2)]
-        protected int _pointCount = 100;
+        protected int _pointCount = 256;
 
         [VFXPropertyBinding("System.Int32"), SerializeField]
         protected ExposedProperty _pointCountPropertyName = "PointCount";
@@ -142,5 +143,23 @@ namespace VFXPath
 
             _needsUpdate = true;
         }
+
+#if VFXPATH_DEBUG
+        private void OnDrawGizmosSelected()
+        {
+            if (_positions == null || _positions.Length < 2)
+                return;
+
+            var m = transform.localToWorldMatrix;
+
+            for (int i = 0; i < _pointCount - 1; i++)
+                Debug.DrawLine(ColorToPosition(_positions[i], m), ColorToPosition(_positions[i + 1], m));
+        }
+
+        private Vector3 ColorToPosition(Color c, Matrix4x4 m)
+        {
+            return m.MultiplyPoint3x4(new Vector3(c.r, c.g, c.b));
+        }
+#endif
     }
 }
