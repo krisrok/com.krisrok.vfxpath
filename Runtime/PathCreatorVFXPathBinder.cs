@@ -1,9 +1,5 @@
 #if HAS_PATHCREATOR
 using PathCreation;
-using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.IO;
 using Unity.Mathematics;
 using UnityEngine;
 using UnityEngine.VFX;
@@ -37,9 +33,6 @@ namespace VFXPath
         {
             if (_currentVertexPath == null)
             {
-                Array.Fill(_positions, Color.black);
-                Array.Fill(_rotations, Color.black);
-
                 _boundsSize = _boundsCenter = Vector3.zero;
             }
             else
@@ -57,8 +50,8 @@ namespace VFXPath
                     var position = m.MultiplyPoint3x4(_currentVertexPath.GetPointAtDistance(distance, EndOfPathInstruction.Extrapolate));
                     var rotation = r * _currentVertexPath.GetRotationAtDistance(distance, EndOfPathInstruction.Extrapolate);
 
-                    _positions[i] = new Color(position.x, position.y, position.z, 1);
-                    _rotations[i] = new Color(rotation.x, rotation.y, rotation.z, rotation.w);
+                    _positions[i] = new half4((half)position.x, (half)position.y, (half)position.z, half.zero);
+                    _rotations[i] = new half4((half)rotation.x, (half)rotation.y, (half)rotation.z, (half)rotation.w);
 
                     if (i == 0)
                         bounds = new Bounds(position, Vector3.zero);

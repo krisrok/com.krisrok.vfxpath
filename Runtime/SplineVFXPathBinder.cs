@@ -1,7 +1,4 @@
 #if HAS_SPLINES
-using System;
-using System.Collections;
-using System.Collections.Generic;
 using Unity.Mathematics;
 using UnityEngine;
 using UnityEngine.Splines;
@@ -36,9 +33,6 @@ namespace VFXPath
         {
             if (_currentSpline == null)
             {
-                Array.Fill(_positions, Color.black);
-                Array.Fill(_rotations, Color.black);
-
                 _boundsSize = _boundsCenter = Vector3.zero;
             }
             else
@@ -56,8 +50,8 @@ namespace VFXPath
                     tangent = math.normalize(tangent);
                     var rotation = quaternion.LookRotation(tangent, up).value;
 
-                    _positions[i] = new Color(position.x, position.y, position.z, 1);
-                    _rotations[i] = new Color(rotation.x, rotation.y, rotation.z, rotation.w);
+                    _positions[i] = new half4((half3)position, half.zero);
+                    _rotations[i] = (half4)rotation;
 
                     if (i == 0)
                         bounds = new Bounds(position, Vector3.zero);

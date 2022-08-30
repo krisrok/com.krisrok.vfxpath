@@ -1,4 +1,5 @@
-﻿using System;
+using Unity.Collections;
+using Unity.Mathematics;
 using UnityEngine;
 using UnityEngine.VFX;
 using UnityEngine.VFX.Utility;
@@ -38,8 +39,8 @@ namespace VFXPath
 
         protected bool _needsUpdate;
 
-        protected Color[] _positions;
-        protected Color[] _rotations;
+        protected NativeArray<half4> _positions;
+        protected NativeArray<half4> _rotations;
         protected Vector3 _boundsCenter;
         protected Vector3 _boundsSize;
 
@@ -84,9 +85,6 @@ namespace VFXPath
 
             FillPositionsRotationsAndBounds();
 
-            _positionMapTexture.SetPixels(_positions);
-            _rotationMapTexture.SetPixels(_rotations);
-
             _positionMapTexture.Apply();
             _rotationMapTexture.Apply();
 
@@ -98,7 +96,6 @@ namespace VFXPath
         private void EnsureTexturesAreInitedAndCorrectlySized()
         {
             if (_positionMapTexture != null
-                && _positions != null
                 && _pointCount == _currentPointCount)
                 return;
 
@@ -120,8 +117,8 @@ namespace VFXPath
 
             _currentPointCount = _pointCount;
 
-            _positions = new Color[width * height];
-            _rotations = new Color[width * height];
+            _positions = _positionMapTexture.GetRawTextureData<half4>();
+            _rotations = _rotationMapTexture.GetRawTextureData<half4>();
 
             _needsUpdate = true;
         }
@@ -156,9 +153,9 @@ namespace VFXPath
                 Debug.DrawLine(ColorToPosition(_positions[i], m), ColorToPosition(_positions[i + 1], m));
         }
 
-        private Vector3 ColorToPosition(Color c, Matrix4x4 m)
+        private Vector3 ColorToPosition(half4 c, Matrix4x4 m)
         {
-            return m.MultiplyPoint3x4(new Vector3(c.r, c.g, c.b));
+            return m.MultiplyPoint3x4(new Vector3(c.x, c.y, c.z));
         }
 #endif
     }
