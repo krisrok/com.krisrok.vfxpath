@@ -2,6 +2,9 @@
   "name": "com.krisrok.vfxpath",
   "displayName": "VFX Path",
   "version": "0.1.0",
+  "dependencies": {
+    "com.unity.visualeffectgraph": "10.5.0"
+  },
   "samples": [
 	{
 		"displayName": "Common Graphs",
