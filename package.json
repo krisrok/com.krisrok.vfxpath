@@ -5,7 +5,7 @@
   "samples": [
 	{
 		"displayName": "Common Graphs",
-		"description": "Some sample graphs to demonstrate how this works in general. Additionally install a scene sample to see how they are used.",
+		"description": "Some sample graphs to demonstrate how this works in general. Additionally install a scene sample to see how they can be used.",
 		"path": "Samples~/CommonGraphs"
 	},
 	{
