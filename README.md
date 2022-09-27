@@ -6,7 +6,7 @@ https://user-images.githubusercontent.com/3404365/192530794-e9793054-1ff8-43bd-b
 
 ## Rationale
 
-Sometimes you might want huge amounts of particles but want to control their flow even more precisely as you traditionally do with flow maps or other techniques.
+Sometimes you might need huge amounts of particles but want to control their flow even more precisely as you traditionally can with flow maps or other techniques.
 
 In VFX Graph there is already a `SampleBezier` node included (see [here](https://docs.unity3d.com/Packages/com.unity.visualeffectgraph@10.2/manual/Operator-SampleBezier.html)) but it is limited to just one segment and hard to handle.
 
