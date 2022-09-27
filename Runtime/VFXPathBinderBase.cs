@@ -96,6 +96,7 @@ namespace VFXPath
         private void EnsureTexturesAreInitedAndCorrectlySized()
         {
             if (_positionMapTexture != null
+                && _positions.IsCreated
                 && _pointCount == _currentPointCount)
                 return;
 
