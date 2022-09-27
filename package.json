@@ -1,5 +1,22 @@
 {
   "name": "com.krisrok.vfxpath",
   "displayName": "VFX Path",
-  "version": "0.1.0"
+  "version": "0.1.0",
+  "samples": [
+	{
+		"displayName": "Common Graphs",
+		"description": "Some sample graphs to demonstrate how this works in general. Additionally install a scene sample to see how they are used.",
+		"path": "Samples~/CommonGraphs"
+	},
+	{
+		"displayName": "Spline Scene (needs com.unity.splines)",
+		"description": "Needs Unity's spline package and the Common Graphs sample installed.",
+		"path": "Samples~/Spline"
+	},
+	{
+		"displayName": "PathCreator Scene (needs Path-Creator)",
+		"description": "Needs SebLague's Path-Creator (https://github.com/SebLague/Path-Creator) and the Common Graphs sample installed.",
+		"path": "Samples~/PathCreator"
+	}
+  ]
 }
