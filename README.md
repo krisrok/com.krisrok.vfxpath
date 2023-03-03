@@ -12,7 +12,15 @@ In VFX Graph there is already a `SampleBezier` node included (see [here](https:/
 
 ## Installation
 
-Via `manifest.json`:
+Here are the easiest ways to install the package, choose either:
+
+### A) Using package manager
+Open Package Manager, select "Add package from git URL..." and enter
+```
+https://github.com/krisrok/vfxpath.git
+```
+
+### B) Edit manifest
 ```
 {
   "dependencies": {
@@ -22,7 +30,7 @@ Via `manifest.json`:
 
 ## Dependencies
 
-There are two spline providers supported and you _have to_ install (at least) one of them.
+⚠️ There are two spline providers supported and you _have to_ install (at least) one of them.
 
 ### Preferred option: Unity's Splines
 https://docs.unity3d.com/Packages/com.unity.splines@1.0/manual/index.html
