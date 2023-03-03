@@ -27,6 +27,9 @@ namespace VFXPath
         [VFXPropertyBinding("UnityEngine.Vector3"), SerializeField]
         protected ExposedProperty _boundsSizePropertyName = "BoundsSize";
 
+        [SerializeField]
+        protected bool _drawLines = false;
+
         private string _currentPointCountPropertyName;
         private string _currentPositionMapPropertyName;
         private string _currentRotationMapPropertyName;
@@ -142,9 +145,11 @@ namespace VFXPath
             _needsUpdate = true;
         }
 
-#if VFXPATH_DEBUG
         private void OnDrawGizmosSelected()
         {
+            if (_drawLines == false)
+                return;
+
             if (_positions == null || _positions.Length < 2)
                 return;
 
@@ -158,6 +163,5 @@ namespace VFXPath
         {
             return m.MultiplyPoint3x4(new Vector3(c.x, c.y, c.z));
         }
-#endif
     }
 }
