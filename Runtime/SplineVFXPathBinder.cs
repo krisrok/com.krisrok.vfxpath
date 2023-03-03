@@ -92,12 +92,20 @@ namespace VFXPath
             if (spline == _currentSpline)
                 return;
 
+#if !HAS_SPLINES_2_0_0
             if (_currentSpline != null)
                 _currentSpline.changed -= _spline_ContentsChanged;
+#else
+            Spline.Changed -= _spline_AnyChanged;
+#endif
 
             if (spline != null)
             {
+#if !HAS_SPLINES_2_0_0
                 spline.changed += _spline_ContentsChanged;
+#else
+                Spline.Changed += _spline_AnyChanged;
+#endif
 
                 if (_splineContainer.transform != transform)
                 {
@@ -112,10 +120,20 @@ namespace VFXPath
             _needsUpdate = true;
         }
 
+#if !HAS_SPLINES_2_0_0
         private void _spline_ContentsChanged()
         {
             _needsUpdate = true;
         }
+#else
+        private void _spline_AnyChanged(Spline spline, int knotIndex, SplineModification modification)
+        {
+            if (spline != _currentSpline)
+                return;
+            
+            _needsUpdate = true;
+        }
+#endif
 
         public override string ToString()
         {

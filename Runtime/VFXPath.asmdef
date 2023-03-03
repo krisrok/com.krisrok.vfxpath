@@ -24,6 +24,11 @@
             "name": "com.unity.splines",
             "expression": "",
             "define": "HAS_SPLINES"
+        },
+        {
+            "name": "com.unity.splines",
+            "expression": "2.0.0",
+            "define": "HAS_SPLINES_2_0_0"
         }
     ],
     "noEngineReferences": false
