@@ -42,10 +42,10 @@ There are two parts to this: Providing the spline's data to the VFX graph (via [
 
 Have a look at the included [Samples](#Samples) for some more concrete usage pointers.
 
-In general you just need to:
+In general you need to:
 1. Add a Visual Effect component to your GameObject
 	- Set or create a Visual Effect Asset configured to have the neccessary properties exposed
-1. Add a SplineContainer component to (the same or any other) GameObject
+1. Add a SplineContainer component (to the same or any other GameObject)
 	- Create a spline using the scene view tools
 1. Add a [VFXPropertyBinder](#VFXPropertyBinder) component to the same GameObject
 	- Add the Property Binding: `+` -> VfxPath/Spline
