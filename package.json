@@ -3,7 +3,8 @@
   "displayName": "VFX Path",
   "version": "0.1.0",
   "dependencies": {
-    "com.unity.visualeffectgraph": "10.5.0"
+    "com.unity.visualeffectgraph": "10.5.0",
+	"com.unity.mathematics": "1.1.0"
   },
   "samples": [
 	{
