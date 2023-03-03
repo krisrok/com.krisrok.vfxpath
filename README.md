@@ -38,7 +38,7 @@ There are several ways to install it.
 
 ## Usage
 
-There are two parts to this: Providing the spline's data to the VFX graph (via `[VFXPropertyBinder](#VFXPropertyBinder)`) and enabling access to the data inside the graphs (via custom Nodes, or better [Subgraphs](#Subgraphs)).
+There are two parts to this: Providing the spline's data to the VFX graph (via [VFXPropertyBinder](#VFXPropertyBinder)) and enabling access to the data inside the graphs (via custom Nodes, or better [Subgraphs](#Subgraphs)).
 
 Have a look at the included [Samples](#Samples) for some more concrete usage pointers.
 
