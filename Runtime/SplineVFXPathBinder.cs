@@ -26,7 +26,7 @@ namespace VFXPath
         public override bool IsValid(VisualEffect component)
         {
             return base.IsValid(component)
-                && _splineContainer?.Spline != null;
+                && _splineContainer != null && _splineContainer.Splines?.Count > 0;
         }
 
         protected override void FillPositionsRotationsAndBounds()
@@ -37,28 +37,41 @@ namespace VFXPath
             }
             else
             {
-                var step = 1f / (_pointCount - 1);
+                var splines = _splineContainer.Splines;
+                var splinesCount = splines.Count;
+                var pointCount = _pointCount / splinesCount;
+                var missingPointCount = _pointCount % splinesCount;
 
                 var bounds = new Bounds();
 
-                float t = 0;
-                for (int i = 0; i < _pointCount; i++)
+                for (int k = 0; k < splinesCount; k++)
                 {
-                    _currentSpline.Evaluate(t, out float3 position, out float3 tangent, out float3 up);
+                    var _currentSpline = splines[k];
+                    var actualPointCount = (splinesCount > 1 && k == splinesCount - 1) ? pointCount + missingPointCount: pointCount;
 
-                    tangent = FixNullTangentIfNeeded(tangent, position, i, step);
-                    tangent = math.normalize(tangent);
-                    var rotation = quaternion.LookRotation(tangent, up).value;
+                    var step = 1f / (actualPointCount - 1);
 
-                    _positions[i] = new half4((half3)position, half.zero);
-                    _rotations[i] = (half4)rotation;
+                    half splineIndex = splinesCount > 1 ? (half)((float)k / (splinesCount - 1)) : half.zero;
 
-                    if (i == 0)
-                        bounds = new Bounds(position, Vector3.zero);
-                    else
-                        bounds.Encapsulate(position);
+                    float t = 0;
+                    for (int i = 0; i < actualPointCount; i++)
+                    {
+                        _currentSpline.Evaluate(t, out float3 position, out float3 tangent, out float3 up);
 
-                    t += step;
+                        tangent = FixNullTangentIfNeeded(tangent, position, i, step);
+                        tangent = math.normalize(tangent);
+                        var rotation = quaternion.LookRotation(tangent, up).value;
+
+                        _positions[k * pointCount + i] = new half4((half3)position, splineIndex);
+                        _rotations[k * pointCount + i] = (half4)rotation;
+
+                        if (i == 0 && k == 0)
+                            bounds = new Bounds(position, Vector3.zero);
+                        else
+                            bounds.Encapsulate(position);
+
+                        t += step;
+                    }
                 }
 
                 _boundsCenter = bounds.center;
@@ -87,7 +100,9 @@ namespace VFXPath
 
         protected override void EnsureReferences()
         {
-            var spline = _splineContainer?.Spline;
+            Spline spline = null;
+            if(_splineContainer != null)
+                spline = _splineContainer.Spline;
 
             if (spline == _currentSpline)
                 return;
@@ -130,7 +145,7 @@ namespace VFXPath
         {
             if (spline != _currentSpline)
                 return;
-            
+
             _needsUpdate = true;
         }
 #endif
