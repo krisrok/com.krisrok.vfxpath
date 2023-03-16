@@ -1,4 +1,6 @@
 #if HAS_SPLINES
+using System.Collections.Generic;
+using System.Linq;
 using Unity.Mathematics;
 using UnityEngine;
 using UnityEngine.Splines;
@@ -14,7 +16,7 @@ namespace VFXPath
         [SerializeField]
         private SplineContainer _splineContainer;
 
-        private Spline _currentSpline;
+        private IReadOnlyCollection<Spline> _currentSplines;
 
         public override void Reset()
         {
@@ -31,7 +33,7 @@ namespace VFXPath
 
         protected override void FillPositionsRotationsAndBounds()
         {
-            if (_currentSpline == null)
+            if (_currentSplines == null)
             {
                 _boundsSize = _boundsCenter = Vector3.zero;
             }
@@ -47,10 +49,13 @@ namespace VFXPath
                 float t = 0;
                 for (int i = 0; i < _pointCount; i++)
                 {
-                    int splineIndex = (int)t;
-                    splines[Mathf.Min(splineIndex, splinesCount - 1)].Evaluate(t - splineIndex, out float3 position, out float3 tangent, out float3 up);
+                    int splineIndex = splinesCount > 1 ? (int)t : 0;
+                    var spline = splines[Mathf.Min(splineIndex, splinesCount - 1)];
+                    var splineT = t - splineIndex;
+                    spline.Evaluate(splineT, out float3 position, out float3 tangent, out float3 up);
 
-                    tangent = FixNullTangentIfNeeded(tangent, position, i, step);
+                    if (tangent.x == 0 && tangent.y == 0 && tangent.z == 0)
+                        tangent = FixNullTangent(position, splineT, step, spline);
                     tangent = math.normalize(tangent);
                     var rotation = quaternion.LookRotation(tangent, up).value;
 
@@ -70,45 +75,50 @@ namespace VFXPath
             }
         }
 
-        private float3 FixNullTangentIfNeeded(float3 tangent, float3 position, int i, float step)
+        private float3 FixNullTangent(float3 position, float t, float step, Spline spline)
         {
-            if (tangent.x == 0 && tangent.y == 0 && tangent.z == 0)
+            if (t + step <= 1)
             {
-                if (i < _pointCount - 1)
-                {
-                    var nextPosition = _currentSpline.EvaluatePosition((i + 1) * step);
-                    tangent = nextPosition - position;
-                }
-                else
-                {
-                    var prevPosition = _currentSpline.EvaluatePosition((i - 1) * step);
-                    tangent = position - prevPosition;
-                }
+                var nextPosition = spline.EvaluatePosition(t + step);
+                return nextPosition - position;
             }
-
-            return tangent;
+            else
+            {
+                var prevPosition = spline.EvaluatePosition(t - step);
+                return position - prevPosition;
+            }
         }
 
         protected override void EnsureReferences()
         {
-            Spline spline = null;
-            if (_splineContainer != null)
-                spline = _splineContainer.Spline;
+            var splines = _splineContainer == null ? null : _splineContainer.Splines;
 
-            if (spline == _currentSpline)
-                return;
+            if(_currentSplines == null)
+            {
+                if (splines == null)
+                    return;
+            }
+            else
+            {
+                if (_currentSplines.SequenceEqual(splines))
+                    return;
+            }
 
 #if !HAS_SPLINES_2_0_0
-            if (_currentSpline != null)
-                _currentSpline.changed -= _spline_ContentsChanged;
+            if (_currentSplines != null)
+            {
+                foreach(var spline in _currentSplines)
+                    spline.changed -= _spline_ContentsChanged;
+            }
 #else
             Spline.Changed -= _spline_AnyChanged;
 #endif
 
-            if (spline != null)
+            if (splines != null)
             {
 #if !HAS_SPLINES_2_0_0
-                spline.changed += _spline_ContentsChanged;
+                foreach (var spline in splines)
+                    spline.changed -= _spline_ContentsChanged;
 #else
                 Spline.Changed += _spline_AnyChanged;
 #endif
@@ -121,7 +131,7 @@ namespace VFXPath
                 }
             }
 
-            _currentSpline = spline;
+            _currentSplines = splines;
 
             _needsUpdate = true;
         }
@@ -134,7 +144,7 @@ namespace VFXPath
 #else
         private void _spline_AnyChanged(Spline spline, int knotIndex, SplineModification modification)
         {
-            if (spline != _currentSpline)
+            if (_currentSplines == null || _currentSplines.Contains(spline) == false)
                 return;
 
             _needsUpdate = true;
